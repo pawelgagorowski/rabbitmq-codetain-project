@@ -2,9 +2,25 @@ import { RequestHandler } from "express";
 import { User } from "../models/users";
 import { gettingUsers } from "../utils/thirdParty";
 
-const USERS:[] = [];
+let USERS: User[] = [];
 
 export const getUsers: RequestHandler = async (req, res, next) => {
-    const arrayOfUsers = await gettingUsers();
-    console.log(arrayOfUsers);
+    let arrayOfUsers = await gettingUsers();
+    arrayOfUsers.forEach(({id, name, email, gender, status, created_at}) => {
+      const user = new User(id, name, email, gender, status, created_at)
+      USERS.push(user)
+    })
+    console.log(USERS)
 }
+
+interface Person {
+  id: number;
+  name: string;
+  email: string;
+  gender: string;
+  status: string;
+  created_at: Date;
+  updated_at: Date;
+}
+//
+interface Person extends Array<Person>{}
