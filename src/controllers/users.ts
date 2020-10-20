@@ -1,27 +1,15 @@
 import { RequestHandler } from "express";
-import { User } from "../models/users";
+import { User, Person } from "../models/users";
 import { gettingUsers } from "../utils/thirdParty";
 
-let USERS: User[] = [];
+const USERS: Person[] = [];
 
-// why Person Interface can not be attached as a expected returned type to arrayOfUsers?
-export const getUsers: RequestHandler = async (req, res, next) => {
-    let arrayOfUsers = await gettingUsers();
-    arrayOfUsers.forEach(({id, name, email, gender, status, created_at}) => {
-      const user = new User(id, name, email, gender, status, created_at)
+export const getUsers: RequestHandler = async (req, res, neet) => {
+    const arrayOfUsers: Array<Person> = await gettingUsers();
+    console.log(arrayOfUsers)
+    arrayOfUsers.forEach((el) => {
+      const user = new User(el)
       USERS.push(user)
     })
-    console.log(USERS)
+    res.send(USERS)
 }
-
-// interface Person {
-//   id: number;
-//   name: string;
-//   email: string;
-//   gender: string;
-//   status: string;
-//   created_at: Date;
-//   updated_at: Date;
-// }
-//
-// interface Person extends Array<Person>{}
