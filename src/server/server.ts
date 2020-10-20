@@ -26,7 +26,7 @@ export default class Server {
 
   start = ()=> {
     log.info('Starting server...');
-    this.apiInstance.listen(process.env.PORT, (err: ApplicationError)=> {
+    this.apiInstance.listen('8080', (err: ApplicationError)=> {
       if (err) log.error(`Unable to start ${ name } server:`, err);
       else {
         log.info(`${ name } server is listening on ${process.env.port}`);
