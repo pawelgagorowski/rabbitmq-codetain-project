@@ -2,14 +2,18 @@ import { RequestHandler } from "express";
 import { User, Person } from "../models/users";
 import { gettingUsers } from "../utils/thirdParty";
 
-const USERS: Person[] = [];
+const users: Person[] = [];
 
-export const getUsers: RequestHandler = async (req, res, neet) => {
-    const arrayOfUsers: Array<Person> = await gettingUsers();
-    console.log(arrayOfUsers)
-    arrayOfUsers.forEach((el) => {
-      const user = new User(el)
-      USERS.push(user)
-    })
-    res.send(USERS)
+export const getUsers: RequestHandler = async (req, res) => {
+    const noUserMessage = "no users";
+    const persons: Array<Person> | [] = await gettingUsers();
+    if(persons.length > 0) {
+      persons.forEach((el) => {
+        const user = new User(el)
+        users.push(user)
+      })
+      res.send(users)
+    } else {
+      res.send(noUserMessage)
+    }
 }

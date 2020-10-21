@@ -1,9 +1,9 @@
 import axios from "axios";
 import { User, Person } from "../models/users";
 
-export async function gettingUsers(): Promise<Person[]> {
+export async function gettingUsers(): Promise<Person[] | []> {
   const url = "https://gorest.co.in/public-api/users";
-  let result;
+  const result:[] = [];
   try {
       const body = await axios.get(url);
       const result = JSON.parse(body.data);
@@ -11,6 +11,6 @@ export async function gettingUsers(): Promise<Person[]> {
       return data;
   } catch(e) {
     console.log(e);
-    return 
   }
+  return result
 }
