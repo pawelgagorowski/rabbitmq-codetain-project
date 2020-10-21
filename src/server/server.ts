@@ -1,7 +1,12 @@
 import dotenv from 'dotenv';
 import ApplicationError from '../errors/application-error';
-import express from 'express';
-import log from '../config/winston'
+import express, { Router } from 'express';
+import log from '../config/winston';
+
+interface singleRouter {
+  path: string,
+  stack: (Function | string | undefined)[]
+}
 
 const result = dotenv.config();
 if (result.error) {
@@ -18,10 +23,16 @@ export default class Server {
     this.apiInstance = express();
   };
 
+  extractPathAndMethod = (obj: singleRouter) => {
+    for(let i = 0; i < obj.stack.length; i++) {
+      log.info()
+    }
+  }
+
   addApiRoute = (method: string, uri: string, ...fn: object[]) => {
     const info = `Added route: [${method}] ${uri}`;
-
     this.apiInstance[method.toLowerCase()](uri, ...fn);
+    log.info(info)
   };
 
   start = () => {

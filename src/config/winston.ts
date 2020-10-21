@@ -3,7 +3,7 @@ import {
     format,
     transports
   } from 'winston';
-  
+
   const logTransports = [
     new transports.File({
       level: 'error',
@@ -22,10 +22,10 @@ import {
     }),
     new transports.Console({
       level: 'debug',
-      format: format.prettyPrint()
+      format: format.json()
     })
   ];
-  
+
   const logger = createLogger({
     format: format.combine(
       format.timestamp()
@@ -33,6 +33,5 @@ import {
     transports: logTransports,
     defaultMeta: { service: 'api' }
   });
-  
+
   export default logger;
-  
